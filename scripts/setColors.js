@@ -1,6 +1,5 @@
 import { FREQ, GAIN, COLOR_RANGE } from "./constants";
 
-
 export function setColors(hue, light) {
     setBackgroundColor(hue, light);
     setHeadingColor(hue, light);
@@ -14,7 +13,6 @@ export function findFrequencyPercentage(freq) {
     var freqRange = FREQ.max - FREQ.min;
     return (freq / freqRange);
 }
-
 
 function setBackgroundColor(huePercent, lightPercent) {
     var hue = Math.min(360, Math.round(COLOR_RANGE * huePercent)), 
@@ -39,4 +37,3 @@ function setHeadingColor(huePercent, lightPercent) {
 
     heading.style.color = headingColor;
 }
-

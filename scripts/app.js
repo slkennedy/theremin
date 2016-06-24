@@ -9,46 +9,38 @@ import {
     calculateLightValue 
 } from "./setColors";
 
+import { setupListeners } from "./eventListeners";
+
+
+//Determine what AudioContext is available to use
 var context = getAudioContext();
 
 function getAudioContext() {
     if("AudioContext" in window) {
-        return new AudioContext();
+        return new window.AudioContext();
     } else if("webkitAudioContext" in window) {
-        return new webkitAudioContext();
+        return new window.webkitAudioContext();
     }
 }
 
-if(isTouchDevice()) {
-    document.body.addEventListener("touchstart", downEvent);
-    document.body.addEventListener("touchend", upEvent);
-    document.body.addEventListener("touchmove", moveEvent);
-} else {
-    document.body.addEventListener("mousedown", downEvent);
-    document.body.addEventListener("mouseup", upEvent);
-    document.body.addEventListener("mousemove", moveEvent);
-}
+//sets event listeners based on touch or non-touch device
+setupListeners(downEvent, upEvent, moveEvent);
 
+//event functions
 var mousedown = false,
     oscillator = null,
     gainNode = context.createGain();
-
-function isTouchDevice() {
-    return (("ontouchstart" in window)
-        || (navigator.MaxTouchPoints > 0)
-        || (navigator.msMaxTouchPoints > 0));
-}
 
 function downEvent(event) {
     mousedown = true;
     oscillator = context.createOscillator();
 
-    var gain = calculateSoundGain(getY(event)),
-        lightValue = calculateLightValue(getY(event)),   
+    var gain = calculateSoundGain(event.pageY),
+        lightValue = calculateLightValue(event.pageY),   
         frequencyPercentage = findFrequencyPercentage(oscillator.frequency.value); 
     
 
-    oscillator.frequency.setTargetAtTime(calculateFrequency(getX(event)), context.currentTime, 0.01);
+    oscillator.frequency.setTargetAtTime(calculateFrequency(event.pageX), context.currentTime, 0.01);
     oscillator.connect(gainNode);
     
     gainNode.connect(context.destination);
@@ -70,24 +62,14 @@ function upEvent() {
 function moveEvent(event) {
     event.preventDefault();
     if(mousedown) {
-        var gain = calculateSoundGain(getY(event)),
-            lightValue = calculateLightValue(getY(event)),
+        var gain = calculateSoundGain(event.pageY),
+            lightValue = calculateLightValue(event.pageY),
             frequencyPercentage = findFrequencyPercentage(oscillator.frequency.value);    
         
-        oscillator.frequency.setTargetAtTime(calculateFrequency(getX(event)), context.currentTime, 0.01);
+        oscillator.frequency.setTargetAtTime(calculateFrequency(event.pageX), context.currentTime, 0.01);
         
         gainNode.gain.setTargetAtTime(gain, context.currentTime, 0.01); 
         
         setColors(frequencyPercentage, lightValue);           
     }
 }
-
-
-function getX(event) {
-    return event.pageX;
-}
-
-function getY(event) {
-    return event.pageY;
-}
-
