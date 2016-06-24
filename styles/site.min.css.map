@@ -1,0 +1,1 @@
+{"version":3,"sources":["site.scss"],"names":[],"mappings":"AAAA,EACI,qBAAuB,CAC1B,AAED,KACI,mBAAoB,AACpB,UAAY,CACf","file":"site.min.css","sourcesContent":["* {\n    box-sizing: border-box;\n}\n\nbody {\n    background: #dedede;\n    color: #111;\n}\n"],"sourceRoot":"./"}

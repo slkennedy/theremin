@@ -1,0 +1,15 @@
+{
+  "name": "theremin",
+  "version": "1.0.0",
+  "description": "cool theremin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sara Kennedy",
+  "license": "MIT",
+  "devDependencies": {
+    "@unumux/eslint-config-unumux": "1.1.0",
+    "@unumux/ux-build-tools": "3.1.3"
+  }
+}
