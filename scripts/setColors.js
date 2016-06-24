@@ -20,7 +20,7 @@ function setBackgroundColor(huePercent, lightPercent) {
     var hue = Math.min(360, Math.round(COLOR_RANGE * huePercent)), 
         light = (70 * lightPercent) + 10, 
         backgroundColor = "hsla(" + hue + ", 50%, " + light + "%, 1)";
-    
+
     document.body.style.backgroundColor = backgroundColor;
 }
 
